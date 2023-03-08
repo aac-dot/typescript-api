@@ -13,7 +13,7 @@ export class SignUpController implements Controller {
 
     return {
       statusCode: 200,
-      body: 'Success'
+      body: 'This is the end'
     }
   }
 }
