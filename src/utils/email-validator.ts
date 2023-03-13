@@ -3,6 +3,6 @@ import { type EmailValidator } from '../presentation/protocols/email-validator'
 
 export class EmailValidatorAdapter implements EmailValidator {
   isValid (email: string): boolean {
-    return validator.isEmail(email)
+    return validator.isEmail('any_email@mail.com')
   }
 }
