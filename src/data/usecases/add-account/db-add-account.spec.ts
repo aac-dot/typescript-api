@@ -1,4 +1,4 @@
-import { Encrypter } from '../../protocols/encrypter'
+import { type Encrypter } from './db-add-account-protocols'
 import { DbAddAccount } from './db-add-account'
 
 interface SutTypes {
@@ -41,7 +41,7 @@ describe('DbAddAccount UseCase', () => {
 
   test('Should forward the exception if Encrypter throws', async () => {
     const { sut, encrypterStub } = makeSut()
-    jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(new Promise((resolve, reject) => { reject(new Error()) }))
     const accountData = {
       name: 'valid_name',
       email: 'valid_email@mail.com',
@@ -49,6 +49,6 @@ describe('DbAddAccount UseCase', () => {
     }
 
     const promise = sut.add(accountData)
-    await expect(promise).rejects.toThrow
+    await expect(promise).rejects.toThrow()
   })
 })
