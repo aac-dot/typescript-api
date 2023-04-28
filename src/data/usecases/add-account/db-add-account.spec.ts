@@ -81,7 +81,11 @@ describe('DbAddAccount UseCase', () => {
     }
 
     await sut.add(accountData)
-    expect(addSpy).toHaveBeenCalledWith('hashed_password')
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+      password: 'hashed_password'
+    })
   })
   test('Should forward the exception if AddAccountRepository throws', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
@@ -94,5 +98,21 @@ describe('DbAddAccount UseCase', () => {
 
     const promise = sut.add(accountData)
     await expect(promise).rejects.toThrow()
+  })
+  test('Should return an account on sucess', async () => {
+    const { sut } = makeSut()
+    const accountData = {
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+      password: 'valid_password'
+    }
+
+    const account = await sut.add(accountData)
+    expect(account).toEqual({
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+      password: 'hashed_password'
+    })
   })
 })
